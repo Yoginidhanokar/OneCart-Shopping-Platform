@@ -19,14 +19,21 @@ function Login() {
 
   const handleLogin = async (e) => {
   e.preventDefault();
+
   try {
     const result = await axios.post(
-      `${serverUrl}/api/auth/login`,
-      { email, password },
-      { withCredentials: true }
+      serverUrl + "/api/auth/login", FormData,
+      { email, password }
     );
 
-    console.log("User login successful:", result.data);
+    console.log("LOGIN RESPONSE 👉", result.data);
+
+    // 🔥 THIS IS THE KEY LINE YOU ARE MISSING
+    localStorage.setItem("token", result.data.token);
+
+    // Optional: save user
+    localStorage.setItem("user", JSON.stringify(result.data.user));
+
     await getCurrentUser();
     navigate("/");
   } catch (error) {
@@ -37,6 +44,7 @@ function Login() {
     alert(error.response?.data?.message || "Login failed");
   }
 };
+
 
 const { user } = useContext(userDataContext);
 

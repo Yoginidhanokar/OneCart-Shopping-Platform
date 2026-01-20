@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { authDataContext } from './authContext'
 import axios, { Axios } from 'axios'
 import { userDataContext } from './UserContext'
+import { toast } from "react-toastify"  
 
  export const shopDataContext = React.createContext()
 
@@ -26,49 +27,65 @@ function ShopContext({children}) {
         }
     }
 
-    const addtoCart = async (itemId , size) => {
-      if(!size){
-        console.log("Select Product Size");
-        return;
-      }
-
-      let cartData = structuredClone(cartItem);
-
-      if(cartData[itemId]){
-        if(cartData[itemId][size]) {
-          cartData[itemId][size] += 1;
-        } else {
-          cartData[itemId][size] = 1;
-        }
-      }else{
-        cartData[itemId] = {};
-        cartData[itemId][size] = 1;
-      }
-
-      setCartItem(cartData);
-
-      if(userData){
+      const addtoCart = async (itemId, size) => {
         try {
-          let result = await axios.post(serverUrl + "/api/cart/add", {itemId, size}, {withCredentials:true})
-          console.log(result.data)
+          const token = localStorage.getItem("token");
 
-        } catch (error){
-          console.log(error)
-
+        if (!token) {
+          alert("Please login to add items to cart.");
+          return;
         }
-      }
-    }
-    const getUserCart = async () => {
-      try {
-        const result = await axios.post(serverUrl + '/api/cart/get',{}, {withCredentials:true})
-          setCartItem(result.data)
 
-        } catch (error) {
-          console.log(error)
-          toast.error(error.message)
-          
+        const response = await axios.post(
+          serverUrl + "/api/cart/add",
+          { itemId, size },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.data.success) {
+          setCartItem(prev => {
+            const updated = structuredClone(prev);
+            if (!updated[itemId]) updated[itemId] = {};
+            if (!updated[itemId][size]) updated[itemId][size] = 0;
+            updated[itemId][size] += 1;
+            return updated;
+          });
+        }
+      } catch (error) {
+        console.log("Add to cart error:", error);
       }
+    };
+
+
+    const getUserCart = async () => {
+    try {
+      const token = localStorage.getItem("token")
+
+      if (!token) {
+        console.log("No token found")
+        return
+      }
+
+      const response = await axios.post(
+        serverUrl + "/api/cart/get",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+
+      setCartItem(response.data.cartData)
+    } catch (error) {
+      console.log("Get cart error:", error)
     }
+  }
+
     
     const updateQuantity = async (itemId, size, quantity) => {
       let cartData = structuredClone(cartItem);
@@ -132,7 +149,7 @@ function ShopContext({children}) {
 
     useEffect(() => {
       getUserCart()
-    },[])
+    },[userData])
 
     let value = {
         products, currency, delivery_fee,getProducts, search,setSearch,showSearch,setShowSearch, cartItem, addtoCart, getCartCount, setCartItem, updateQuantity, getCartAmount

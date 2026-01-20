@@ -35,31 +35,49 @@ export const registration = async (req,res) => {
 }
 
 
-export const login = async (req,res) => {
-    try {
-        let {email,password} = req.body;
-        let user = await User.findOne({email})
-        if(!user){
-            return res.status(404).json({message:"User is not found"})
-        }
-        let isMatch = await bcrypt.compare(password,user.password)
-        if(!isMatch){
-            return res.status(400).json({message:"Incorrect password"})
-        }
-        let token = await genToken(user._id)
-        res.cookie("token",token,{
-            httpOnly:true,
-            secure:false,
-            sameSite: "lax",
-            maxAge: 7 * 24 * 60 * 60 * 1000
-        })
-        return res.status(201).json(user)
-        
-    } catch (error) {
-        console.log("login error")
-        return res.status(500).json({message:`login error ${error}`})
+
+export const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // 🔐 validate user (example)
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: "Invalid credentials" });
     }
-}
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+
+    // 🎟️ create token
+    const token = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    // 🍪 SET COOKIE (THIS FIXES EVERYTHING)
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: false,       // 🔴 MUST be false on localhost
+      sameSite: "lax",     // 🔴 REQUIRED
+      maxAge: 7 * 24 * 60 * 60 * 1000
+    });
+
+    res.status(200).json({
+  success: true,
+  token,   // 🔥 THIS IS WHAT FRONTEND NEEDS
+  user
+});
+
+
+  } catch (error) {
+    res.status(500).json({ message: "Login failed" });
+  }
+};
+
 
 export const loginUser = (req, res) => {
   const { email, password } = req.body;

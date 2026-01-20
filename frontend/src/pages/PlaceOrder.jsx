@@ -61,18 +61,26 @@ function PlaceOrder() {
         console.log("ORDER DATA 👉", orderData)
 
         if (method === 'cod') {
-            const result = await axios.post(
-                serverUrl + "/api/order/placeorder",
-                orderData,
-                { withCredentials: true }
-            )
+            const token = localStorage.getItem("token");
 
-            if (result.status === 201) {
-                setCartItem({})
-                navigate("/order")
-            }
+        if (!token) {
+        alert("Please login again. Token missing.");
+        return;
         }
-    } catch (error) {
+
+        const result = await axios.post(
+        serverUrl + "/api/order/placeorder",
+        orderData,
+        {
+            headers: {
+            Authorization: `Bearer ${token}`,
+            },
+        }
+        );
+
+        }
+    } 
+    catch (error) {
         console.log(error)
     }
 }

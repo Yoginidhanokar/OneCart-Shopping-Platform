@@ -2,14 +2,16 @@ import jwt from "jsonwebtoken";
 
 const isAuth = (req, res, next) => {
   try {
-    const token = req.cookies.token;
+    console.log("HEADERS 👉", req.headers);
 
-    if (!token) {
-      return res.status(401).json({ message: "Unauthorized" });
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({ message: "No token provided" });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const token = authHeader.split(" ")[1];
 
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = { userId: decoded.userId };
 
     next();
@@ -18,4 +20,4 @@ const isAuth = (req, res, next) => {
   }
 };
 
-export default isAuth; // ✅ THIS LINE IS REQUIRED
+export default isAuth;

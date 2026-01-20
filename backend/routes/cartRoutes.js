@@ -7,5 +7,9 @@ const cartRoutes = express.Router();
 cartRoutes.post('/get', isAuth, getUserCart);
 cartRoutes.post('/add', isAuth, addToCart);
 cartRoutes.post('/update', isAuth, updateCart);
+cartRoutes.post('/add', isAuth, (req, res, next) => {
+  console.log("🔥 /api/cart/add hit");
+  next();
+}, addToCart);
 
 export default cartRoutes;

@@ -13,6 +13,8 @@ import ProductDetail from './pages/ProductDetail'
 import Cart from './pages/Cart'
 import PlaceOrder from './pages/PlaceOrder'
 import Order from './pages/Order'
+import { ToastContainer } from "react-toastify"   // ✅ ADD
+import "react-toastify/dist/ReactToastify.css" 
 
 function App() {
   let {userData, loading} = useContext(userDataContext)
@@ -24,6 +26,7 @@ function App() {
 
   return (
     <>
+    <ToastContainer />
     {userData && <Nav/>}
       <Routes>
 
