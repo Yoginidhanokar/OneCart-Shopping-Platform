@@ -3,7 +3,7 @@ import Title from '../component/Title'
 import { useState } from 'react'
 import CartTotal from '../component/CartTotal'
 import { shopDataContext } from '../context/ShopContext'
-import { authDataContext } from '../context/authContext'
+import { authDataContext } from '../context/AuthContext'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { authDataContext } from './authContext'
+import { authDataContext } from './AuthContext'
 import axios, { Axios } from 'axios'
 import { userDataContext } from './UserContext'
 import { toast } from "react-toastify"  

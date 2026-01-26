@@ -10,7 +10,7 @@ import axios from 'axios';
 import { IoMdHome } from "react-icons/io";
 import { HiOutlineCollection } from "react-icons/hi";
 import { IoIosContact } from "react-icons/io";
-import { authDataContext } from '../context/authContext';
+import { authDataContext } from '../context/AuthContext';
 import { shopDataContext } from '../context/ShopContext';
 function Nav() {
     // let {getCurrentUser , userData} = useContext(userDataContext)
