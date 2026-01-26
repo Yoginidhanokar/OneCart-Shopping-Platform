@@ -13,11 +13,11 @@ function Order() {
   try {
     const token = localStorage.getItem("token");
     if (!token) return;
-    const result = await axios.post(
-      serverUrl + '/api/order/list',
+    const result = await axios.get(
+      serverUrl + '/api/order/userorders',
       {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem(token)}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     )
