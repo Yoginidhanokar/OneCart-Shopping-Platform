@@ -28,6 +28,11 @@ function ShopContext({children}) {
     }
 
       const addtoCart = async (itemId, size) => {
+        if (!size) {
+          alert("Please select a size.");
+          return;
+        }
+        
         try {
           const token = localStorage.getItem("token");
 
@@ -80,7 +85,7 @@ function ShopContext({children}) {
         }
       )
 
-      setCartItem(response.data.cartData)
+      setCartItem(response.data)
     } catch (error) {
       console.log("Get cart error:", error)
     }
@@ -94,7 +99,12 @@ function ShopContext({children}) {
 
       if(userData) {
         try {
-          await axios.post(serverUrl + "/api/cart/update", {itemId, size ,quantity}, {withCredentials: true})
+          const token = localStorage.getItem("token");
+          await axios.post(serverUrl + "/api/cart/update", {itemId, size ,quantity}, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
         } catch (error) {
           console.log(error)
           toast.error(error.message)

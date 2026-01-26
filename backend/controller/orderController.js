@@ -21,7 +21,7 @@ export const placeOrder = async (req, res) => {
         await User.findByIdAndUpdate(userId, { cartData: {} })
 
 
-        return res.status(201).json({message:'Order Place'})
+        return res.status(201).json({success: true, message:'Order Placed Successfully'})
     } catch (error) {
         console.log(error)
         res.status(500).json({message:'Order Place error'})
@@ -38,3 +38,24 @@ export const userOrders = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+//forAdmin
+export const allOrders = async (req,res) => {
+  try {
+    const orders = await Order.find({})
+    res.status(200).json(orders)
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({message:"adminAllOrders"})
+  }
+}
+
+export const updateStatus = async (req,res) => {
+  try {
+    const {orderId, status} = req.body
+    await Order.findByIdAndUpdate(orderId,{status})
+    return res.status(201).json({message: 'Status Updated'})
+  } catch (error) {
+    return res.status(500).json({message:error.message})
+  }
+}

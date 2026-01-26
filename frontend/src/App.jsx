@@ -15,6 +15,8 @@ import PlaceOrder from './pages/PlaceOrder'
 import Order from './pages/Order'
 import { ToastContainer } from "react-toastify"   // ✅ ADD
 import "react-toastify/dist/ReactToastify.css" 
+import NotFound from './pages/NotFound'
+import Ai from './component/Ai'
 
 function App() {
   let {userData, loading} = useContext(userDataContext)
@@ -57,7 +59,10 @@ function App() {
 
         <Route path='/order' element={userData ? <Order /> : <Navigate to="/login" state={{from: location.pathname}} />}/>
 
+        <Route path='*' element={<NotFound/>}/>
+
       </Routes>
+      <Ai />
     </>
   )
 }

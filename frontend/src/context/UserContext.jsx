@@ -13,10 +13,14 @@ function UserContext({ children }) {
 
   const getCurrentUser = async () => {
   try {
-    const result = await axios.get("/api/auth/getcurrentuser",
-      { withCredentials: true }
-    );
-    setUserData(result.data.user || result.data);
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    const result = await axios.get(`${serverUrl}/api/auth/getcurrentuser`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    setUserData(result.data);
   } catch (error) {
     if (error.response?.status === 401) {
       setUserData(null);

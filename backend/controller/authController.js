@@ -126,7 +126,7 @@ export const googleLogin = async (req,res) => {
             sameSite: "lax",
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
-        return res.status(200).json(user)
+        return res.status(200).json({token, user})
     } catch (error) {
         console.log("googleLogin error")
         return res.status(500).json({message:`googleLogin error $error}`})
@@ -139,7 +139,7 @@ export const googleLogin = async (req,res) => {
 export const getCurrentUser = async (req, res) => {
   try {
     const user = await User
-      .findById(req.userId)
+      .findById(req.user.userId)
       .select("-password");
 
     if (!user) {

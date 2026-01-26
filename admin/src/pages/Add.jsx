@@ -5,6 +5,8 @@ import upload from '../assets/upload image.png'
 import { useState } from 'react'
 import { authDataContext } from '../context/AuthContext'
 import axios from 'axios'
+import { FaSadCry } from 'react-icons/fa'
+import Loading from '../component/Loading'
 
 function Add() {
   let [image1,setImage1] = useState(false)
@@ -18,9 +20,11 @@ function Add() {
   const [subCategory,setSubCategory] = useState("TopWear")
   const [bestseller,setBesteller] = useState(false)
   const [sizes,setSizes] = useState([])
+  const [loading, setLoading] = useState(authDataContext)
   let {serverUrl} = useContext(authDataContext)
 
   const handleAddProduct = async (e) => {
+    setLoading(true)
     e.preventDefault()
     try {
       let formData = new FormData()
@@ -39,6 +43,8 @@ function Add() {
       let result = await axios.post(serverUrl + "/api/product/addproduct", formData, {withCredentials:true})
 
       console.log(result.data)
+      toast.success("ADD Product Successfully")
+      setLoading(false)
 
       if(result){
         setName("")
@@ -55,6 +61,8 @@ function Add() {
 
     } catch (error) {
       console.log(error)
+      setLoading(false)
+      toast.error("Add Product Failed")
     }
   }
   return (
@@ -148,7 +156,7 @@ function Add() {
             <label htmlFor="checkbox" className='text-[18px] md:text-[22px] font-semibold'>Add to Bestseller</label>
           </div>
 
-          <button className='w-[140px] px-[20px] py-[20px] rounded-xl bg-[#65d8f7] flex items-center justify-center gap-[10px] text-black active:bg-slate-700 active:text-white active:border-[2px] border-white'>Add Product</button>
+          <button className='w-[140px] px-[20px] py-[20px] rounded-xl bg-[#65d8f7] flex items-center justify-center gap-[10px] text-black active:bg-slate-700 active:text-white active:border-[2px] border-white'>{loading ? <Loading/> : "Add Product"}</button>
         </form>
       </div>
     </div>

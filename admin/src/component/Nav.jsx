@@ -13,9 +13,8 @@ function Nav() {
 
     const logOut = async () => {
         try {
-            const result = await axios.get(serverUrl + "/api/auth/logout", {withCredentials:true})
+            const result = await axios.post(serverUrl + "/api/auth/logout", {}, {withCredentials:true})
             console.log(result.data)
-            getAdmin()
             navigate("/login")
         } catch (error) {
             console.log(error)

@@ -63,24 +63,29 @@ function PlaceOrder() {
         if (method === 'cod') {
             const token = localStorage.getItem("token");
 
-        if (!token) {
-        alert("Please login again. Token missing.");
-        return;
-        }
+            if (!token) {
+                alert("Please login again. Token missing.");
+                return;
+            }
 
-        const result = await axios.post(
-        serverUrl + "/api/order/placeorder",
-        orderData,
-        {
-            headers: {
-            Authorization: `Bearer ${token}`,
-            },
-        }
-        );
+            const result = await axios.post(
+                serverUrl + "/api/order/placeorder",
+                orderData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
 
+            if (result.data.success) {
+                setCartItem({}); // Clear cart locally
+                navigate('/order'); // Navigate to orders page
+            } else {
+                alert('Order placement failed. Please try again.');
+            }
         }
-    } 
-    catch (error) {
+    } catch (error) {
         console.log(error)
     }
 }

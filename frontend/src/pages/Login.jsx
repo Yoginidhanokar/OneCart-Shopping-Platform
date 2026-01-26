@@ -22,8 +22,7 @@ function Login() {
 
   try {
     const result = await axios.post(
-      serverUrl + "/api/auth/login", FormData,
-      { email, password }
+      serverUrl + "/api/auth/login", { email, password }
     );
 
     console.log("LOGIN RESPONSE 👉", result.data);
@@ -66,6 +65,8 @@ useEffect(() => {
         { withCredentials: true }
       );
       console.log("Google login:", result.data);
+      localStorage.setItem("token", result.data.token);
+      localStorage.setItem("user", JSON.stringify(result.data.user));
       getCurrentUser();
       navigate("/");
     } catch (error) {

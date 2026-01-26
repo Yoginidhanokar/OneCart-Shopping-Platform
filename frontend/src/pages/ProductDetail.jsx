@@ -19,19 +19,15 @@ function ProductDetail() {
 
 
     const fetchProductData = async () => {
-        products.map((item)=> {
-            if(item._id === productId) {
-                setProductData(item)
-                console.log(productData)
-                setImage1(item.image1)
-                setImage2(item.image2)
-                setImage3(item.image3)
-                setImage4(item.image4)
-                setImage(item.image1)
-
-                return null;
-            }
-        })
+        const product = products.find((item) => item._id === productId);
+        if (product) {
+            setProductData(product);
+            setImage1(product.image1);
+            setImage2(product.image2);
+            setImage3(product.image3);
+            setImage4(product.image4);
+            setImage(product.image1);
+        }
     }
 
     useEffect(() => {
