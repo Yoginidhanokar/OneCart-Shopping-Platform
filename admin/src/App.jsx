@@ -7,6 +7,7 @@ import Orders from './pages/Orders'
 import Login from './pages/Login'
 import { useContext } from 'react'
 import { adminDataContext } from './context/AdminContext'
+import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 
 function App() {
