@@ -18,12 +18,54 @@ let port = process.env.PORT || 8000;
 let app = express();
 
 app.use(cors({
-    origin: ["https://onecart-shopping-frontend.onrender.com", "https://onecart-admin-cwj0.onrender.com"],
+    origin: function (origin, callback) {
+        const allowedOrigins = [
+            "http://localhost:5173",
+            "https://onecart-shopping-frontend.onrender.com",
+            "https://onecart-admin-cwj0.onrender.com"
+        ];
+
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
     credentials: true
 }));
 
+app.options("*", cors());
+
 app.use(express.json());
 app.use(cookieParser());
+
+// Fallback CORS headers middleware: ensures every response includes
+// Access-Control-Allow-* headers (helps if proxy or older deployments
+// accidentally omit them). Also handles preflight OPTIONS requests.
+app.use((req, res, next) => {
+    const allowedOrigins = [
+        "http://localhost:5173",
+        "https://onecart-shopping-frontend.onrender.com",
+        "https://onecart-admin-cwj0.onrender.com"
+    ];
+    const origin = req.headers.origin;
+    if (origin && allowedOrigins.includes(origin)) {
+        res.setHeader('Access-Control-Allow-Origin', origin);
+    } else if (!origin) {
+        // non-browser requests (curl, server-to-server)
+        res.setHeader('Access-Control-Allow-Origin', '*');
+    }
+
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+
+    if (req.method === 'OPTIONS') {
+        return res.sendStatus(200);
+    }
+
+    next();
+});
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/product", productRoutes);
