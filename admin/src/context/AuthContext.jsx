@@ -4,18 +4,16 @@ import { createContext } from 'react'
 
 export const authDataContext = createContext()
 function AuthContext({children}) {
-    let serverUrl = "https://onecart-backend-2wez.onrender.com"
+    // use relative path during development so that the Vite proxy can
+    // forward requests, avoiding CORS issues with the backend.
+    const serverUrl = process.env.NODE_ENV === 'development' ? '' : 'https://onecart-backend-2wez.onrender.com';
 
-    let value = {
-        serverUrl
-    }
-  return (
-    <div>
+    const value = { serverUrl };
+    return (
       <authDataContext.Provider value={value}>
         {children}
       </authDataContext.Provider>
-    </div>
-  )
+    );
 }
 
 export default AuthContext

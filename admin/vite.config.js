@@ -6,5 +6,15 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   base: '/',
-  server: {port : 5174}
+  server: {
+    port: 5174,
+    proxy: {
+      '/api': {
+        target: 'https://onecart-backend-2wez.onrender.com',
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/api/, '/api')
+      }
+    }
+  }
 })
