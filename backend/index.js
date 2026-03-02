@@ -17,10 +17,12 @@ console.log('MONGODB_URL:', process.env.MONGODB_URL ? 'Loaded' : 'Not loaded');
 let port = process.env.PORT || 8000;
 let app = express();
 
-// Quick dev debug middleware: force CORS header for localhost origin
+// Quick dev debug middleware: force CORS header for localhost origin and log incoming origin
 app.use((req, res, next) => {
     const origin = req.headers.origin;
+    console.log("[CORS DEBUG] request to", req.path, "method", req.method, "origin header=", origin);
     if (origin === 'http://localhost:5173') {
+        console.log("[CORS DEBUG] setting allow-origin for localhost");
         res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
         res.setHeader('Access-Control-Allow-Credentials', 'true');
         res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
