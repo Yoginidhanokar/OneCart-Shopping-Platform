@@ -30,7 +30,7 @@ function Cart() {
     },[cartItem]);
 
   return (
-    <div className='w-[99vw] min-h-[100vh] p-[20px] overflow-hidden bg-gradient-to-l from-[#141414] to-[#0c2025]'>
+    <div className='w-full min-h-screen p-[20px] overflow-hidden bg-gradient-to-l from-[#141414] to-[#0c2025]'>
         <div className='h-[8%] w-[100%] text-center mt-[80px]'>
             <Title text1={'YOUR'} text2={'CART'} />
         </div>

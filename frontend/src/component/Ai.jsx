@@ -70,14 +70,23 @@ function Ai() {
         setActiveAi(false)
     }
   return (
-    <div className='fixed lg:bottom-[20px] md:bottom-[40px] bottom-[80px] left-[2%]' onClick={()=>{recognition.start();
+    <div className='fixed lg:bottom-5 md:bottom-6 bottom-16 left-3' onClick={()=>{recognition.start();
     openingSound.play()
     setActiveAi(true)
     }}>
-      <img src={ai} alt="" className={`w-[100px] cursor-pointer $ {activeAi ? 'translate-x-[10%] translate-y-[-10%] scale-125 ' : 'translate-x-[0] translate-y-[0] scale-100'} 
-      transition-transform` } style={{
-        filter: `${activeAi?"drop-shadow(0px 0px 30px #00d2fc)":"drop-shadow(0px 0px 20px black)"}`
-      }}/>
+      <img
+        src={ai}
+        alt="AI assistant"
+        className={`cursor-pointer transition-transform duration-300 ${activeAi ? 'translate-x-[10%] translate-y-[-10%] scale-110' : 'translate-x-0 translate-y-0 scale-100'}`}
+        style={{
+          width: 80,
+          height: 80,
+          opacity: 0.85,
+          filter: activeAi
+            ? 'drop-shadow(0 0 10px rgba(0,0,0,0.22)) brightness(0.75) saturate(0.45) grayscale(0.15)'
+            : 'drop-shadow(0 0 6px rgba(0,0,0,0.14)) brightness(0.7) saturate(0.35) grayscale(0.25)',
+        }}
+      />
     </div>
   )
 }

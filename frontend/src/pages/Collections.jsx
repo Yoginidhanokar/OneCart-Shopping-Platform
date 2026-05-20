@@ -79,8 +79,8 @@ function Collections() {
 
 
   return (
-    <div className='w-[99vw] min-h-[100vh] bg-gradient-to-l from-[#141414] to-[#0c2025] flex items-start flex-col md:flex-row justify-start pt-[70px] overflow-x-hidden z-[2] pb-[110px]'>
-      <div className={`md:w-[30vw] lg:w-[20vw] w-[100vw] md:min-h-[100vh] ${showFilter ? "h-[45vh]" : "h-[8vh]"} p-[20px] border-r-[1px] border-gray-400 text-[#aaf5fa] lg:fixed`}>
+    <div className='w-full min-h-screen bg-gradient-to-l from-[#141414] to-[#0c2025] flex items-start flex-col md:flex-row justify-start pt-[70px] overflow-x-hidden z-[2] pb-[110px]'>
+      <div className={`md:w-[30vw] lg:w-[20vw] w-full md:min-h-[100vh] ${showFilter ? "h-[45vh]" : "h-[8vh]"} p-[20px] border-r-[1px] border-gray-400 text-[#aaf5fa] lg:fixed`}>
         <p className='text-[25px] font-semibold flex gap-[5px] items-center justify-start cursor-pointer'onClick={()=>setShowFilter(prev=>!prev)}>FILTERS
           {!showFilter && <FaAngleRight className='text-[18px] md:hidden'/>}
           {showFilter &&<FaAngleDown className='text-[18px] md:hidden'/>}
@@ -104,7 +104,7 @@ function Collections() {
         </div>
       </div>
       <div className='lg:pl-[20%] md:py-[10px]'>
-        <div className='md:w-[80vw] w-[100vw] p-[20px] flex justify-between flex-col lg:flex-row lg:px-[50px]'>
+        <div className='md:w-[80vw] w-full p-[20px] flex justify-between flex-col lg:flex-row lg:px-[50px]'>
           <Title text1={"ALL"} text2={"COLLECTIONS"}/>
           <select name="" id="" className='bg-slate-600 w-[60%] md:w-[200px] h-[50px] px-[10px] text-[white] rounded-lg hover:border-[#46d1f7] border-[2px]' onChange={(e)=>setSortType(e.target.value)}>
             <option value="relavant" className='w-[100%] h-[100%]'>Sort By: Relavent</option>
@@ -112,7 +112,7 @@ function Collections() {
             <option value="high-low" className='w-[100%] h-[100%]'>Sort By: High to Low</option>
           </select>
         </div>
-        <div className='lg:w-[80vh] md:w-[100vw] w-[100vw] min-h-[70vh] flex items-center justify-center flex-wrap gap-[30px]'>
+        <div className='lg:w-[80vh] md:w-full w-full min-h-[70vh] flex items-center justify-center flex-wrap gap-[30px]'>
           {
             filteredProducts.map((item,index)=>(
               <Card key={index} id={item._id} name={item.name} price={item.price} image={item.image1}/>

@@ -50,14 +50,6 @@ app.use(cors({
     credentials: true
 }));
 
-app.options("*", cors());
-
-app.use(express.json());
-app.use(cookieParser());
-
-// Fallback CORS headers middleware: ensures every response includes
-// Access-Control-Allow-* headers (helps if proxy or older deployments
-// accidentally omit them). Also handles preflight OPTIONS requests.
 app.use((req, res, next) => {
     const allowedOrigins = [
         "http://localhost:5173",

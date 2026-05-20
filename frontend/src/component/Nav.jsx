@@ -33,7 +33,7 @@ function Nav() {
     //     }
     // }
   return (
-    <div className='w-[100vw] h-[70px] bg-[#ecfafaec] z-10 fixed top-0 flex items-center justify-between px-[30px] shadow-md shadow-black '>
+    <div className='fixed inset-x-0 h-[70px] bg-[#ecfafaec] z-10 flex items-center justify-between px-[30px] shadow-md shadow-black'>
       
 
       <div className='w-[20%] lg:w-[30%] flex items-center justify-start gap-[10px]'>
@@ -49,7 +49,7 @@ function Nav() {
         </ul>
       </div>
       <div className='w-[30%] flex items-center justify-end gap-[20px]'>
-        {!showSearch && <IoSearchCircleOutline className='w-[38px] h-[38px] text-[#000000] cursor-pointer' onClick={()=>{setShowSearch(prev=>!prev);navigate("/collection")}}/>}
+        {!showSearch && <IoSearchCircleOutline className='w-[38px] h-[38px] text-[#000000] cursor-pointer' onClick={()=>setShowSearch(prev=>!prev)}/>}
         {showSearch && <IoSearchCircleSharp className='w-[38px] h-[38px] text-[#000000] cursor-pointer' onClick={()=>setShowSearch(prev=>!prev)}/>}
         {!userData && <FaUserCircle className='w-[29px] h-[29px] text-[#000000] cursor-pointer' onClick={()=>setShowProfile(prev=>!prev)}/>}
         {userData && (<div className='w-[30px] h-[30px] bg-[#080808] text-[white] rounded-full flex items-center justify-center' onClick={()=>setShowProfile(prev=>!prev)}>{userData?.name ? userData.name.slice(0, 1) : ""}
@@ -82,7 +82,7 @@ function Nav() {
         </ul>
 
       </div>}
-      <div className='w-[100vw] h-[90px] flex items-center justify-between px-[20px] text-[12px] fixed bottom-0 left-0 bg-[#191818] md:hidden'>
+      <div className='fixed inset-x-0 bottom-0 h-[90px] flex items-center justify-between px-[20px] text-[12px] bg-[#191818] md:hidden'>
             <button className='text-[white] flex items-center justify-center flex-col gap-[2px]' onClick={()=>navigate("/")}><IoMdHome className='w-[25px] h-[25px] text-[white] md:hidden'/>Home</button>
             <button className='text-[white] flex items-center justify-center flex-col gap-[2px]' onClick={()=>navigate("/collection")}><HiOutlineCollection className='w-[25px] h-[25px] text-[white] md:hidden'/>Collections</button>
             <button className='text-[white] flex items-center justify-center flex-col gap-[2px]' onClick={()=>navigate("/contact")}><IoIosContact className='w-[25px] h-[25px] text-[white] md:hidden'/>Contact</button>

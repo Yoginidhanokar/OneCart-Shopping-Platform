@@ -54,7 +54,7 @@ function Registration() {
   }
 
   return (
-    <div className='w-[100vw] h-[100vh] bg-gradient-to-l from-[#141414] to-[#0c2025] text-[white] flex flex-col items-center justify-start'>
+    <div className='w-full h-screen bg-gradient-to-l from-[#141414] to-[#0c2025] text-[white] flex flex-col items-center justify-start'>
       
       {/* Navbar */}
       <div 
