@@ -22,12 +22,14 @@ function Login() {
 
   try {
     const result = await axios.post(
-      serverUrl + "/api/auth/login", { email, password }
+      serverUrl + "/api/auth/login", 
+      { email, password },
+      { withCredentials: true }
     );
 
     console.log("LOGIN RESPONSE 👉", result.data);
 
-    // 🔥 THIS IS THE KEY LINE YOU ARE MISSING
+    // 🔥 Store token in localStorage for Authorization header
     localStorage.setItem("token", result.data.token);
 
     // Optional: save user

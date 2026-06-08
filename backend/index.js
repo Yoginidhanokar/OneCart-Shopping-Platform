@@ -17,13 +17,37 @@ console.log('MONGODB_URL:', process.env.MONGODB_URL ? 'Loaded' : 'Not loaded');
 let port = process.env.PORT || 8000;
 let app = express();
 
+// 🔥 Parse JSON request bodies FIRST - CRITICAL!
+app.use((req, res, next) => {
+    console.log("[MIDDLEWARE] Incoming request:", {
+        method: req.method,
+        path: req.path,
+        headers: req.headers,
+        body: req.body
+    });
+    next();
+});
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+app.use((req, res, next) => {
+    console.log("[MIDDLEWARE] After JSON parse:", {
+        method: req.method,
+        path: req.path,
+        body: req.body
+    });
+    next();
+});
+
 // Quick dev debug middleware: force CORS header for localhost origin and log incoming origin
 app.use((req, res, next) => {
     const origin = req.headers.origin;
     console.log("[CORS DEBUG] request to", req.path, "method", req.method, "origin header=", origin);
-    if (origin === 'http://localhost:5173') {
+    if (origin === 'http://localhost:5173' || origin === 'http://localhost:5174') {
         console.log("[CORS DEBUG] setting allow-origin for localhost");
-        res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+        res.setHeader('Access-Control-Allow-Origin', origin);
         res.setHeader('Access-Control-Allow-Credentials', 'true');
         res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
         res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
@@ -37,6 +61,7 @@ app.use(cors({
     origin: function (origin, callback) {
         const allowedOrigins = [
             "http://localhost:5173",
+            "http://localhost:5174",
             "https://onecart-shopping-frontend.onrender.com",
             "https://onecart-admin-cwj0.onrender.com"
         ];
@@ -53,6 +78,7 @@ app.use(cors({
 app.use((req, res, next) => {
     const allowedOrigins = [
         "http://localhost:5173",
+        "http://localhost:5174",
         "https://onecart-shopping-frontend.onrender.com",
         "https://onecart-admin-cwj0.onrender.com"
     ];

@@ -1,12 +1,10 @@
-import React from 'react'
-import { children } from 'react'
-import { createContext } from 'react'
+import React, { createContext } from 'react'
 
 export const authDataContext = createContext()
 function AuthContext({children}) {
-    // use relative path during development so that the Vite proxy can
-    // forward requests, avoiding CORS issues with the backend.
-    const serverUrl = process.env.NODE_ENV === 'development' ? '' : 'https://onecart-backend-2wez.onrender.com';
+    // Prefer an explicit Vite environment variable `VITE_SERVER_URL`.
+    // Fallback: during development use relative path (Vite proxy), otherwise keep existing hardcoded Render URL.
+    const serverUrl = import.meta.env.VITE_SERVER_URL ?? (import.meta.env.DEV ? '' : 'https://onecart-backend-2wez.onrender.com');
 
     const value = { serverUrl };
     return (

@@ -21,13 +21,20 @@ function Login() {
         e.preventDefault()
         try {
           const result = await axios.post(serverUrl + '/api/auth/adminLogin',{email, password}, {withCredentials:true})
-          console.log(result.data)
-          toast.success("AdminLogin Successfully")
-          getAdmin()
-          navigate("/")
+          console.log("ADMIN LOGIN RESPONSE 👉", result.data)
+
+          if (result.data?.success) {
+            localStorage.setItem("token", result.data.token)
+            localStorage.setItem("adminEmail", email)
+            toast.success("Admin login successful")
+            getAdmin()
+            navigate("/")
+          } else {
+            toast.error(result.data?.message || "Admin login failed")
+          }
         } catch (error) {
           console.log(error)
-          toast.error("AdminLogin Failed")
+          toast.error(error.response?.data?.message || "Admin login failed")
         }
       }
   return (
