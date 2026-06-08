@@ -53,7 +53,6 @@ app.use((req, res, next) => {
         res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
     }
 
-    if (req.method === 'OPTIONS') return res.sendStatus(200);
     next();
 });
 
@@ -65,8 +64,9 @@ app.use(cors({
             "https://onecart-shopping-frontend.onrender.com",
             "https://onecart-admin-cwj0.onrender.com"
         ];
+        const isRenderOrigin = origin?.endsWith('.onrender.com');
 
-        if (!origin || allowedOrigins.includes(origin)) {
+        if (!origin || allowedOrigins.includes(origin) || isRenderOrigin) {
             callback(null, true);
         } else {
             callback(new Error("Not allowed by CORS"));
@@ -83,7 +83,8 @@ app.use((req, res, next) => {
         "https://onecart-admin-cwj0.onrender.com"
     ];
     const origin = req.headers.origin;
-    if (origin && allowedOrigins.includes(origin)) {
+    const isRenderOrigin = origin?.endsWith('.onrender.com');
+    if (origin && (allowedOrigins.includes(origin) || isRenderOrigin)) {
         res.setHeader('Access-Control-Allow-Origin', origin);
     } else if (!origin) {
         // non-browser requests (curl, server-to-server)
