@@ -88,7 +88,7 @@ Create **TWO** separate web services on Render:
    - **Name**: `onecart-frontend`
    - **Root Directory**: `frontend`
    - **Build Command**: `npm install && npm run build`
-   - **Start Command**: `npx vite preview --host`
+   - **Start Command**: `npm start`
    - **Environment Variables**: (none needed, uses production serverUrl from code)
 
 #### **Service 3: Admin**
@@ -97,7 +97,7 @@ Create **TWO** separate web services on Render:
    - **Name**: `onecart-admin`
    - **Root Directory**: `admin`
    - **Build Command**: `npm install && npm run build`
-   - **Start Command**: `npx vite preview --host`
+   - **Start Command**: `npm start`
    - **Environment Variables**: (none needed)
 
 ---
