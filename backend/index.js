@@ -62,7 +62,8 @@ app.use(cors({
             "http://localhost:5173",
             "http://localhost:5174",
             "https://onecart-shopping-frontend.onrender.com",
-            "https://onecart-admin-cwj0.onrender.com"
+            "https://onecart-admin-cwj0.onrender.com",
+            "https://one-cart-admin-1g91.onrender.com"
         ];
         const isRenderOrigin = origin?.endsWith('.onrender.com');
 
@@ -80,7 +81,8 @@ app.use((req, res, next) => {
         "http://localhost:5173",
         "http://localhost:5174",
         "https://onecart-shopping-frontend.onrender.com",
-        "https://onecart-admin-cwj0.onrender.com"
+        "https://onecart-admin-cwj0.onrender.com",
+        "https://one-cart-admin-1g91.onrender.com"
     ];
     const origin = req.headers.origin;
     const isRenderOrigin = origin?.endsWith('.onrender.com');
